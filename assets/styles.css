@@ -1,0 +1,20 @@
+:root { --mm-purple:#7c5cff; --mm-blue:#2fa8ff; --mm-card:#141a33; --mm-border:#242c52; }
+.block-container { padding-top: 1.6rem; max-width: 1250px; }
+h1, h2, h3 { letter-spacing: -0.01em; }
+.mm-hero { background: linear-gradient(120deg,#1b1450 0%,#2a1b7a 45%,#0f3b7a 100%);
+  border-radius: 18px; padding: 1.6rem 1.8rem; margin-bottom: 1.2rem; border: 1px solid var(--mm-border); }
+.mm-hero h1 { margin:0; font-size:2rem; color:#fff; }
+.mm-hero p { margin:.3rem 0 0; color:#cfd3ff; }
+.mm-card { background: var(--mm-card); border:1px solid var(--mm-border); border-radius:16px;
+  padding: 1rem 1.1rem; transition: transform .15s, border-color .15s; height:100%; }
+.mm-card:hover { transform: translateY(-2px); border-color: var(--mm-purple); }
+.mm-card .icon { font-size:1.4rem; }
+.mm-card .label { color:#9aa3d6; font-size:.8rem; text-transform:uppercase; letter-spacing:.06em; margin-top:.2rem; }
+.mm-card .value { font-size:1.7rem; font-weight:700; color:#fff; line-height:1.2; }
+.mm-card .sub { color:#8189b8; font-size:.78rem; }
+.mm-pill { display:inline-block; padding:.15rem .65rem; border-radius:999px; font-size:.78rem; font-weight:600; }
+.mm-ok { background:#12382b; color:#4be3a1; } .mm-warn { background:#3d3213; color:#ffd166; }
+div.stButton > button[kind="primary"], div.stDownloadButton > button {
+  border-radius: 10px; border: 0; }
+div.stButton > button[kind="primary"] { background: linear-gradient(90deg,#7c5cff,#2fa8ff); color:#fff; font-weight:600; }
+section[data-testid="stSidebar"] { border-right: 1px solid var(--mm-border); }
