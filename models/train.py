@@ -123,6 +123,7 @@ def train_model(cfg: TrainConfig, progress_callback: Optional[Callable[[dict, in
 
         if save_to_db:
             from database import db_manager as db
+            db.init_db()
             from services import dataset_service
             last = history["epochs"][-1]
             stats = dataset_service.get_stats() or {}
