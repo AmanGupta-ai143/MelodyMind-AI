@@ -1,5 +1,9 @@
 # 🎵 MelodyMind AI – Intelligent Music Composition Studio
 
+**🔗 Live demo:** https://melodymind-ai-qhza2q8yxlsakpp3ly83hn.streamlit.app  
+**📦 Source:** https://github.com/AmanGupta-ai143/MelodyMind-AI  
+_(The free demo may take ~30 s to wake up. Saved compositions are not kept after the app restarts.)_
+
 An LSTM-based music generator with a Streamlit studio UI, built as an **Artificial Intelligence internship project**
 (task: *Music Generation with AI*).
 
@@ -79,11 +83,27 @@ Optional better audio: install FluidSynth + `pip install pyfluidsynth`, download
 environment variable. Without it, a simple built-in synthesiser renders the WAV.
 
 ## Results
-_Fill in after training:_ best validation loss = `…`, perplexity = `…` (see **Training Analytics**). Add screenshots to
-`docs/` and sample outputs to `samples/`.
+Real training run (CPU, 10 epochs, hidden size 128, sequence length 32) on **40 MAESTRO MIDI files**
+(85,881 melody notes, vocabulary of 602 note tokens):
+
+| Metric | Value |
+|---|---|
+| Training loss (epoch 1 → 10) | 4.94 → 3.73 |
+| Best validation loss (epoch 4, saved checkpoint) | **4.695** |
+| Validation next-note accuracy (top-1) | about 8–9 % |
+| Random-guess baseline (1 / 602) | about 0.17 % |
+
+![Training results](docs/training_results.png)
+
+The model clearly learns musical patterns (accuracy ≈ 50× above chance), but validation loss rises after epoch 4 –
+a sign of overfitting on this small subset. Training on more files and using more dropout are the obvious next steps.
+Next-note accuracy is a rough guide only; music has no single "correct" continuation.
 
 ## Screenshots
-_Add: Dashboard, Generator, Dataset Explorer, Training Center, Analytics._
+Add your own screenshots to `docs/` (Dashboard, Generator, Dataset Explorer, Training Analytics) and link them here.
+
+## Sample compositions
+Generate a piece in the app, download the MIDI file and place it in `samples/`.
 
 ## Limitations
 - Monophonic melodies only; rests, velocity and chords are not modelled
@@ -98,5 +118,8 @@ Polyphonic encoding · conditional generation (genre/mood) · Transformer or GAN
 `app.py` (navigation) · `pages/` (UI) · `models/` (LSTM, train, generate) · `music_processing/` (MIDI → tokens) ·
 `services/` · `database/` · `components/` · `tests/` · `scripts/`
 
-## Deployment note
-Local use is the primary target. For Streamlit Cloud, host checkpoints externally (they are git-ignored) and note that FluidSynth is unavailable by default.
+## Deployment (Streamlit Community Cloud)
+Deployed from this repository (`main` branch, `app.py`). The trained checkpoint and processed data are committed
+(force-added with `git add -f`) so the app can generate music without retraining. On the free tier the MIDI dataset is not
+present, so the Dataset Explorer shows statistics but no file preview, FluidSynth is unavailable (the built-in synthesiser
+renders audio) and the SQLite library resets when the app restarts. Train locally and push the new checkpoint to update the model.

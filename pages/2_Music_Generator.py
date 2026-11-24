@@ -1,3 +1,4 @@
+from components.charts import plot
 import streamlit as st
 
 import config
@@ -57,7 +58,7 @@ with right:
         if res.get("warning"):
             st.warning(res["warning"])
         try:
-            st.plotly_chart(piano_roll_figure(midi_file_to_notes(config.abs_path(res["midi_file_path"])), "Generated piano roll"))
+            plot(piano_roll_figure(midi_file_to_notes(config.abs_path(res["midi_file_path"])), "Generated piano roll"))
         except Exception:
             st.caption("Piano roll unavailable.")
         render_player(res, key="gen")

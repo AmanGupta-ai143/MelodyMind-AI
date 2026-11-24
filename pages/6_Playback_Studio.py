@@ -1,3 +1,4 @@
+from components.charts import plot
 import streamlit as st
 
 import config
@@ -16,6 +17,6 @@ c = st.selectbox("Composition", items, format_func=lambda r: f"{r['composition_n
 st.caption(f"{c['num_notes']} notes · {c['instrument']} · temperature {c['temperature']} · {c['model_version']} · {c['created_at']}")
 render_player(c, key=f"studio{c['id']}")
 try:
-    st.plotly_chart(piano_roll_figure(midi_file_to_notes(config.abs_path(c["midi_file_path"])), "Piano roll"))
+    plot(piano_roll_figure(midi_file_to_notes(config.abs_path(c["midi_file_path"])), "Piano roll"))
 except Exception:
     st.warning("The MIDI file for this composition could not be read.")

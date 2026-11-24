@@ -1,3 +1,4 @@
+from components.charts import plot
 import pandas as pd
 import streamlit as st
 
@@ -27,9 +28,9 @@ stat_row([
 ])
 st.write("")
 a, b = st.columns(2)
-a.plotly_chart(charts.pitch_histogram(stats["pitch_counts"]))
-b.plotly_chart(charts.instrument_donut(stats["instrument_counts"]))
-st.plotly_chart(charts.duration_distribution(stats["duration_labels"], stats["duration_counts"]))
+a.plotly_chart(charts.pitch_histogram(stats["pitch_counts"]), theme=None)
+b.plotly_chart(charts.instrument_donut(stats["instrument_counts"]), theme=None)
+plot(charts.duration_distribution(stats["duration_labels"], stats["duration_counts"]))
 
 st.subheader("Dataset files")
 df = pd.DataFrame(stats["files"])
@@ -40,12 +41,15 @@ if stats["skipped"]:
 
 st.subheader("Preview a file")
 choice = st.selectbox("File", df["file"].tolist())
-if st.button("Preview (first 30 s)"):
+if ds.dataset_file_count() == 0:
+    st.info("File preview is unavailable here because the MIDI files are not stored in the repository (licence/size). "
+            "Run the project locally with the dataset to preview files.")
+elif st.button("Preview (first 30 s)"):
     try:
         path = ds.resolve_dataset_file(choice)
         validate_midi_file(path)
         notes = midi_file_to_notes(path)
-        st.plotly_chart(piano_roll_figure(notes[notes["start"] < 30], f"Piano roll - {choice}"))
+        plot(piano_roll_figure(notes[notes["start"] < 30], f"Piano roll - {choice}"))
         wav = config.AUDIO_OUT / "_preview.wav"
         render_wav(path, wav, max_seconds=30)
         st.audio(wav.read_bytes(), format="audio/wav")

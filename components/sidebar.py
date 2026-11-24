@@ -10,7 +10,8 @@ section[data-testid="stSidebar"] { background:#ffffff; }
 .stApp h1,.stApp h2,.stApp h3,.stApp p,.stApp label,.stApp span,.stApp li { color:#14173a; }
 .mm-card { background:#ffffff; border-color:#dfe2f5; } .mm-card .value { color:#14173a; }
 .mm-card .label,.mm-card .sub { color:#5b6190; }
-.mm-hero h1,.mm-hero p { color:#ffffff !important; }
+header[data-testid="stHeader"] { background:#f4f5fb; }
+[data-testid="stMarkdownContainer"] { color:#14173a; }
 </style>
 """
 
@@ -37,4 +38,8 @@ def render_sidebar_header() -> None:
 
 
 def hero(title: str, subtitle: str) -> None:
-    st.markdown(f'<div class="mm-hero"><h1>{title}</h1><p>{subtitle}</p></div>', unsafe_allow_html=True)
+    # inline colours so the banner text is readable in both light and dark mode
+    st.markdown(
+        f'<div class="mm-hero"><div style="font-size:2rem;font-weight:700;color:#ffffff;line-height:1.2;">{title}</div>'
+        f'<div style="margin-top:.35rem;color:#dfe2ff;">{subtitle}</div></div>',
+        unsafe_allow_html=True)

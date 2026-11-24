@@ -19,4 +19,6 @@ generated_music/audio/*
 # checkpoints: keep the small history JSON, ignore weights
 models/checkpoints/*.pt
 !models/checkpoints/.gitkeep
-data/maestro-midi.zip
+
+# downloaded dataset archives
+data/*.zip

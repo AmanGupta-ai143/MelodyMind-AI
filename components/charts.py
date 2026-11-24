@@ -100,3 +100,8 @@ def generation_activity_chart(rows: List[dict]) -> go.Figure:
         return empty_figure(title, "No saved compositions yet.")
     fig = go.Figure(go.Scatter(x=[r["date"] for r in rows], y=[r["count"] for r in rows], mode="lines+markers", line=dict(color=PINK)))
     return _style(fig, title, "Date", "Compositions saved")
+
+
+def plot(fig, key=None):
+    """Render a Plotly figure with our own template (theme=None stops Streamlit overriding colours)."""
+    st.plotly_chart(fig, theme=None, key=key)

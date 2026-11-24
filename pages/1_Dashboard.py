@@ -1,3 +1,4 @@
+from components.charts import plot
 import streamlit as st
 
 from components import charts, dashboard_cards as cards, sidebar
@@ -27,10 +28,10 @@ else:
 if c3.button("⚡ Quick generate", type="primary"):
     st.switch_page("pages/2_Music_Generator.py")
 
-st.plotly_chart(charts.training_loss_chart(history))
+plot(charts.training_loss_chart(history))
 a, b = st.columns(2)
-a.plotly_chart(charts.pitch_histogram(stats["pitch_counts"] if stats else None))
-b.plotly_chart(charts.instrument_donut(stats["instrument_counts"] if stats else None))
+a.plotly_chart(charts.pitch_histogram(stats["pitch_counts"] if stats else None), theme=None)
+b.plotly_chart(charts.instrument_donut(stats["instrument_counts"] if stats else None), theme=None)
 
 st.subheader("Recently generated compositions")
 recent = db.list_compositions(limit=5)
@@ -40,7 +41,7 @@ for r in recent:
     st.markdown(f"**{r['composition_name']}** · {r['duration']:.0f}s · {r['num_notes']} notes · {r['created_at']}")
 
 x, y = st.columns(2)
-x.plotly_chart(charts.generation_activity_chart(db.generation_activity()))
+x.plotly_chart(charts.generation_activity_chart(db.generation_activity()), theme=None)
 gc = db.genre_counts()
 with y:
     st.markdown("**Most used style labels** (tags only, not model conditioning)")
