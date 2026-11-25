@@ -45,4 +45,7 @@ x.plotly_chart(charts.generation_activity_chart(db.generation_activity()), theme
 gc = db.genre_counts()
 with y:
     st.markdown("**Most used style labels** (tags only, not model conditioning)")
-    st.bar_chart(gc) if gc else st.caption("No labelled compositions yet.")
+    if gc:
+        st.bar_chart(gc)
+    else:
+        st.caption("No labelled compositions yet.")

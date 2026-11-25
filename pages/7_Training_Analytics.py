@@ -23,4 +23,7 @@ if h:
         "train_acc": "Train next-note acc", "val_acc": "Val next-note acc"}))
 st.subheader("Training history (database)")
 rows = db.list_training_history()
-st.dataframe(pd.DataFrame(rows)) if rows else st.info("No training runs recorded yet.")
+if rows:
+    st.dataframe(pd.DataFrame(rows))
+else:
+    st.info("No training runs recorded yet. (On the free cloud app this table resets; see the per-epoch table above.)")
