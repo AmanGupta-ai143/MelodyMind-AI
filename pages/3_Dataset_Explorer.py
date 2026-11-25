@@ -40,21 +40,33 @@ if stats["skipped"]:
         st.dataframe(pd.DataFrame(stats["skipped"]))
 
 st.subheader("Preview a file")
-choice = st.selectbox("File", df["file"].tolist())
-if ds.dataset_file_count() == 0:
+
+
+def _exists(name: str) -> bool:
+    try:
+        return ds.resolve_dataset_file(name).is_file()
+    except ValueError:
+        return False
+
+
+available = [f for f in df["file"].tolist() if _exists(f)]
+if not available:
     st.info("File preview is unavailable here because the MIDI files are not stored in the repository (licence/size). "
             "Run the project locally with the dataset to preview files.")
-elif st.button("Preview (first 30 s)"):
-    try:
-        path = ds.resolve_dataset_file(choice)
-        validate_midi_file(path)
-        notes = midi_file_to_notes(path)
-        plot(piano_roll_figure(notes[notes["start"] < 30], f"Piano roll - {choice}"))
-        wav = config.AUDIO_OUT / "_preview.wav"
-        render_wav(path, wav, max_seconds=30)
-        st.audio(wav.read_bytes(), format="audio/wav")
-    except (InvalidMidiError, AudioRenderError, ValueError) as exc:
-        st.error(str(exc))
+else:
+    st.caption(f"{len(available)} of {len(df)} dataset files are available for preview on this server.")
+    choice = st.selectbox("File", available)
+    if st.button("Preview (first 30 s)"):
+        try:
+            path = ds.resolve_dataset_file(choice)
+            validate_midi_file(path)
+            notes = midi_file_to_notes(path)
+            plot(piano_roll_figure(notes[notes["start"] < 30], f"Piano roll - {choice}"))
+            wav = config.AUDIO_OUT / "_preview.wav"
+            render_wav(path, wav, max_seconds=30)
+            st.audio(wav.read_bytes(), format="audio/wav")
+        except (InvalidMidiError, AudioRenderError, ValueError) as exc:
+            st.error(str(exc))
 
 st.subheader("Source, license and attribution")
 st.markdown(f"""
