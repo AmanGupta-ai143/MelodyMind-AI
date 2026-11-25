@@ -30,8 +30,8 @@ if c3.button("⚡ Quick generate", type="primary"):
 
 plot(charts.training_loss_chart(history))
 a, b = st.columns(2)
-a.plotly_chart(charts.pitch_histogram(stats["pitch_counts"] if stats else None), theme=None)
-b.plotly_chart(charts.instrument_donut(stats["instrument_counts"] if stats else None), theme=None)
+a.plotly_chart(charts.pitch_histogram(stats["pitch_counts"] if stats else None), theme=None, config=charts.NO_BAR)
+b.plotly_chart(charts.instrument_donut(stats["instrument_counts"] if stats else None), theme=None, config=charts.NO_BAR)
 
 st.subheader("Recently generated compositions")
 recent = db.list_compositions(limit=5)
@@ -41,7 +41,7 @@ for r in recent:
     st.markdown(f"**{r['composition_name']}** · {r['duration']:.0f}s · {r['num_notes']} notes · {r['created_at']}")
 
 x, y = st.columns(2)
-x.plotly_chart(charts.generation_activity_chart(db.generation_activity()), theme=None)
+x.plotly_chart(charts.generation_activity_chart(db.generation_activity()), theme=None, config=charts.NO_BAR)
 gc = db.genre_counts()
 with y:
     st.markdown("**Most used style labels** (tags only, not model conditioning)")

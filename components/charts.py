@@ -102,6 +102,10 @@ def generation_activity_chart(rows: List[dict]) -> go.Figure:
     return _style(fig, title, "Date", "Compositions saved")
 
 
+# hide the hover toolbar (camera / zoom / pan buttons) for a cleaner look
+NO_BAR = {"displayModeBar": False}
+
+
 def plot(fig, key=None):
     """Render a Plotly figure with our own template (theme=None stops Streamlit overriding colours)."""
-    st.plotly_chart(fig, theme=None, key=key)
+    st.plotly_chart(fig, theme=None, key=key, config=NO_BAR)

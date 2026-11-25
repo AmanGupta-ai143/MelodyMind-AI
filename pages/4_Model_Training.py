@@ -49,7 +49,7 @@ if st.button("🚀 Start training", type="primary", disabled=stats is None):
     def on_epoch(entry, total):
         live["epochs"].append(entry)
         bar.progress(entry["epoch"] / total, text=f"Epoch {entry['epoch']}/{total} · train {entry['train_loss']:.3f} · val {entry['val_loss']:.3f}")
-        chart_box.plotly_chart(charts.training_loss_chart(live), key=f"live_{entry['epoch']}", theme=None)
+        chart_box.plotly_chart(charts.training_loss_chart(live), key=f"live_{entry['epoch']}", theme=None, config=charts.NO_BAR)
 
     try:
         train_model(TrainConfig(epochs=int(epochs), batch_size=int(batch), seq_len=int(seq_len), learning_rate=float(lr),

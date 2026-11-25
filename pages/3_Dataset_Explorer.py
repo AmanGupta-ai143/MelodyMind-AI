@@ -28,8 +28,8 @@ stat_row([
 ])
 st.write("")
 a, b = st.columns(2)
-a.plotly_chart(charts.pitch_histogram(stats["pitch_counts"]), theme=None)
-b.plotly_chart(charts.instrument_donut(stats["instrument_counts"]), theme=None)
+a.plotly_chart(charts.pitch_histogram(stats["pitch_counts"]), theme=None, config=charts.NO_BAR)
+b.plotly_chart(charts.instrument_donut(stats["instrument_counts"]), theme=None, config=charts.NO_BAR)
 plot(charts.duration_distribution(stats["duration_labels"], stats["duration_counts"]))
 
 st.subheader("Dataset files")
